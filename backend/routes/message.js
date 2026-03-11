@@ -218,6 +218,9 @@ route.post("/allConversations", async (req, res) => {
                 $sort: { lastMessageAt: -1 }
             }
         ]);
+        if (conversations.length === 0) {
+            return res.status(200).json([]);
+        }
         const messagesWithOnlineStatus = conversations.map(conv => {
             let userInfo = cache.get(`user_${conv.withUser}`)
             return {
